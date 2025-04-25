@@ -1,0 +1,36 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+env/
+venv/
+dev/
+
+# Ignore Docker Compose files
+docker-compose*.yml
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore Docker-related
+*.tar
+*.log
+*.tmp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore other files
+*.sh
+*.csv
+
+# Ignore other directories
+tests/
+notebooks/
+docs/
+assets/

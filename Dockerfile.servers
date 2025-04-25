@@ -1,0 +1,11 @@
+FROM python:3.13-alpine
+RUN apk add --no-cache build-base python3-dev
+WORKDIR /app
+COPY ./src /app/src
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m grpc_tools.protoc -Isrc/rpc-grpc/proto \
+    --python_out=src/rpc-grpc \
+    --grpc_python_out=src/rpc-grpc \
+    src/rpc-grpc/proto/service.proto
+CMD ["sh", "-c", "python src/rpc-jsonrpc/server.py & python src/rpc-grpc/server.py & wait"]

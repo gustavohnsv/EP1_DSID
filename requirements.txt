@@ -1,0 +1,11 @@
+# JSON-RPC library for Python
+jsonrpclib==0.2.1
+
+# gRPC library for Python
+protobuf==6.30.0
+grpcio==1.71.0
+grpcio-tools==1.71.0
+
+# Pandas library for Python (Benchmarking)
+pandas==2.2.3
+matplotlib==3.10.1

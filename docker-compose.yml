@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  benchmark_servers:
+    build: 
+      context: .
+      dockerfile: Dockerfile.servers
+    image: gustavohnsv/benchmark_servers:latest
+    container_name: benchmark_servers_container
+    ports:
+      - "50050:50050"
+      - "50051:50051"

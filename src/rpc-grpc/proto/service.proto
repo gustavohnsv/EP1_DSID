@@ -1,0 +1,40 @@
+// Generate the Python code using:
+// python -m grpc_tools.protoc -Iproto --python_out=. --grpc_python_out=. proto/service.proto
+
+syntax = "proto3";
+
+service BenchmarkServices {
+    rpc VoidOP(Empty) returns (Empty) {}
+    rpc LongOP(LongValue) returns (LongValue) {}
+    rpc MultLongOP(MultLongValues) returns (LongValue) {}
+    rpc StringOP(StringValue) returns (StringValue) {}
+    rpc ClassOP(VectorValue) returns (VectorValue) {}
+}
+
+message Empty {
+    // Empty message
+}
+
+message LongValue {
+    int64 value = 1;
+}
+
+message MultLongValues {
+    repeated LongValue values = 1;
+}
+
+message StringValue {
+    string value = 1;
+}
+
+message VectorValue { // 3D vector
+    PointValue start = 1;
+    PointValue end = 2;
+}
+
+message PointValue { // 3D point
+    int64 xAxis = 1;
+    int64 yAxis = 2;
+    int64 zAxis = 3;
+    string color = 4;
+}
