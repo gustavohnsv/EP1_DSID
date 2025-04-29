@@ -46,13 +46,13 @@ newgrp docker
 ### Instalando pelo Windows
 
 1. **Instalando o Python:**
-    * Acesse o site https://www.python.org/downloads/ e siga com a instalação
+    * Acesse o site !(https://www.python.org/downloads/)[https://www.python.org/downloads/] e siga com a instalação
     * Marque a opção “Add Python to PATH” na instalação.
 2. **Instalando o Docker Desktop:** 
-    * Acesse o site https://docs.docker.com/desktop/setup/install/windows-install/ e siga com a instalação
+    * Acesse o site !(https://docs.docker.com/desktop/setup/install/windows-install/)[https://docs.docker.com/desktop/setup/install/windows-install/] e siga com a instalação
     * Habilite a opção “Instalar Docker Compose”.
 
-### Instalando pelo macOS
+### Instalando pelo macOSwire
 
 1. **Instalando o Homebrew** (Caso ainda não tenha)
 ~~~bash
