@@ -37,6 +37,8 @@ geometry: margin=2.5cm
 | **Tema / Ícones**  | Adwaita [GTK3]                 | Yaru-purple-dark [GTK2/3]        | -                                  |
 | **Terminal**       | Relay (1205)                   | GNOME Terminal                   | /dev/tty2                          |
 
+$\pagebreak$
+
 ## Informações sobre as bibliotecas utilizadas e linguagens de programação
 
 ### Bibliotecas
@@ -81,6 +83,8 @@ $\pagebreak$
 * Vale destacar que cada gráfico apresentado representa apenas uma captura de execução. Os resultados podem variar entre diferentes execuções, ambientes ou máquinas, e o objetivo principal é observar padrões e comportamentos típicos das tecnologias analisadas, e não valores absolutos fixos.
 * Vale destacar também que todos os testes feitos foram utilizando Python nativo para requisições feitas a partir do cliente e uma imagem Docker para o servidor atender as requisições
 
+$\pagebreak$
+
 ## Comparação entre gRPC e JSON-RPC localmente
 
 ### Desempenho do gRPC para comunicação local
@@ -93,10 +97,14 @@ $\pagebreak$
     * No terceiro gráfico, a função `MultLongOP` é avaliada. Nessa chamada, oito variáveis do tipo Long são sorteadas aleatoriamente, multiplicadas entre si no servidor, e o resultado é retornado. O comportamento do gráfico tende a ser aproximadamente constante, exceto por um pico, onde o tempo de execução cresce abruptamente e logo após decai abruptamente
     * Por fim, o quarto gráfico mostra a função `ClassOP`, que trabalha com duas classes: uma representando um ponto (com atributos x, y, z do tipo Long e uma cor do tipo String) e outra representando dois pontos. A função conecta os pontos por uma aresta e calcula mais dois pontos conectáveis para formar uma "sombra", destacada em vermelho. Neste caso, o gráfico se assemelha ao dito anteriormente, em que os tempos tendem a ser aproximadamente constante, exceto por um pico.
 
+$\pagebreak$
+
 ![Benchmark gRPC local 2/2](../assets/local_grpc_strings_benchmark.png){style="max-width: 50%; height: auto;"}
 
 * Os gráficos a seguir seguem a mesma lógica de visualização dos anteriores, mas são voltados especificamente para a função `StringOP`, cuja execução varia conforme o tamanho da String fornecida. Cada chamada gera uma palavra aleatória composta por caracteres alfanuméricos ([a-z][A-Z][0-9]) com tamanho $2^k$, onde $k = 0, 1, 2, \ldots$. Em seguida, cada caractere da palavra é deslocado em 17 posições na tabela Unicode, produzindo uma nova string modificada, que é então retornada ao cliente.
     * Observa-se uma tendência clara: quanto maior o tamanho da palavra, maior o tempo de execução da função. No entanto, mesmo com esse crescimento, os tempos registrados apresentam variações que dificultam a definição de um padrão consistente, exceto em casos de palavras extremamente grandes (por exemplo, quando $k = 15$ ou $k = 20$). Durante a análise dos pacotes com o Wireshark, foi possível verificar tráfego TCP significativo, indicando que os protocolos utilizados (gRPC e JSON-RPC) não são otimizados para lidar com cargas de dados muito grandes em mensagens simples, o que pode impactar diretamente a performance observada.
+
+$\pagebreak$
 
 ### Desempenho do JSON-RPC para comunicação local
 
@@ -109,10 +117,15 @@ $\pagebreak$
     * Por fim, no quarto gráfico, correspondente à função `ClassOP`, que, assim como os outros gráficos acima, apresenta um comportamento parecido, com tempos de execução altos e baixos variando constantemente também.
 * Esse padrão sugere que, apesar de diferenças nos protocolos, alguns comportamentos de tempo se repetem entre as tecnologias, provavelmente devido à própria carga computacional das operações envolvidas.
 
+$\pagebreak$
+
 ![Benchmark JSON-RPC local 2/2](../assets/local_jsonrpc_strings_benchmark.png){style="max-width: 50%; height: auto;"}
 
 * Os gráficos a seguir seguem a mesma lógica de visualização dos tempos de execução por chamada, agora aplicados à função `StringOP` utilizando JSON-RPC. A descrição das operações realizadas pela função é idêntica à apresentada anteriormente para o gRPC.
-    * De maneira geral, os gráficos indicam um custo de execução médio elevado ao utilizar JSON-RPC, especialmente à medida que o tamanho das strings aumenta exponencialmente. Um padrão notável é observado nos dois últimos gráficos: o tempo de execução inicia significativamente alto e, apesar de diminuir gradualmente ao longo das chamadas, permanece em um patamar elevado. Esse comportamento reforça a limitação do protocolo JSON-RPC ao lidar com payloads maiores, como palavras extensas, sendo potencialmente influenciado pelas características do protocolo HTTP/1.1, utilizado nesse tipo de comunicação.
+    * De maneira geral, os gráficos indicam um custo de execução médio elevado ao utilizar JSON-RPC, especialmente à medida que o tamanho das strings aumenta exponencialmente. Um padrão notável é observado nos dois últimos gráficos: o tempo de execução inicia significativamente alto e, apesar de diminuir gradualmente ao longo das chamadas, permanece em um patamar elevado. Esse comportamento reforça a limitação do protocolo JSON-RPC ao lidar com payloads maiores, como palavras extensas, sendo potencialmente influenciado pelas características do protocolo HTTP/1.1, 
+    utilizado nesse tipo de comunicação.
+
+$\pagebreak$
 
 ## Comparação entre gRPC e JSON-RPC remotamente
 * Os testes foram realizados em uma rede local (LAN), com o servidor conectado ao roteador via cabo Ethernet e o cliente conectado via Wi-Fi. Ambas as conexões apresentaram taxas de transferência próximas a 400 Mb/s, conforme medições preliminares.
@@ -126,6 +139,8 @@ $\pagebreak$
     * O gRPC utiliza HTTP/2, permitindo o envio de múltiplas requisições paralelamente (as requisições são tratadas “sobrepostas”)
     * O gRPC utiliza também Protobuf (*Protocol Buffers*), permitindo que os dados sejam serializados em formato binário, resultando em mensagens mais compactas e mais rápdias de transmitir, ocasionando na redução da latência e o uso da rede
  
+$\pagebreak$
+
 ![Pacotes transmitidos entre Cliente/Servidor usando JSON-RPC](../assets/EP1%20Sistemas%20Distribuídos-2-1.png){style="max-width: 50%; height: auto;"}
 
 * Na imagem acima, temos o fluxo dos pacotes utilizando JSON-RPC. A área envolvida pela borda azul sólida indica uma conexão estabelecida entre cliente/servidor, enquanto a área envolvida pela borda azul tracejada indica uma chamada de função feita pelo cliente. Com base nisso, é possível observar, sobre o comportamento dos pacotes, que:
@@ -134,9 +149,13 @@ $\pagebreak$
     * Entre a chamada e o retorno da chamada, o servidor envia um pacote TCP para o cliente com um ACK (indicando que a requisição foi atendida).
     * O JSON-RPC utiliza HTTP/1.1, permitindo o envio de requisições sequencialmente (as requisições são tratadas uma após a outra, sem “sobreposição”)
 
-![Fluxo de pacotes TCP usando gRPC remoto](../assets/EP1%20Sistemas%20Distribuídos-3-1.png)
+$\pagebreak$
+
+![Fluxo de pacotes TCP usando gRPC remoto](../assets/EP1%20Sistemas%20Distribuídos-3-1.png){style="max-width: 50%; height: auto;"}
 
 * A imagem acima ilustra o fluxo de pacotes TCP em situações onde a requisição excede o tamanho máximo de uma única mensagem. Embora essa fragmentação de pacotes não seja exclusiva da comunicação remota, seu impacto se torna mais crítico nesse cenário, pois o tempo adicional de tráfego desses pacotes é incorporado ao tempo total de execução da chamada de função. Na imagem temos apenas o tráfego ao realizar chamadas utilizando gRPC, mas o comportamento é semelhante quando usado o JSON-RPC.
+
+$\pagebreak$
 
 ### Desempenho do gRPC para comunicação remota
 
@@ -148,9 +167,13 @@ $\pagebreak$
     * No terceiro gráfico, da função `MultLongOP`, que nesse caso, apresenta um comportamento diferente dos demais, oscilando os tempos bastante e não mantendo um padrão claro.
     * No quarto gráfico, relativo à função `ClassOP`, o comportamento é um pouco distinto: os tempos iniciam baixos, crescem de forma progressiva até se estabilizarem, e posteriormente sofrem um aumento mais acentuado, sugerindo um possível acúmulo de carga na rede ou competição por recursos de CPU.
 
+$\pagebreak$
+
 ![Benchmark gRPC remoto 2/2](../assets/remote_grpc_strings_benchmark.png){style="max-width: 50%; height: auto;"}
 
 * Os gráficos a seguir seguem a mesma proposta de visualização dos tempos de execução da função `StringOP`, agora em um ambiente de execução remota. As descrições da operação da função permanecem as mesmas descritas anteriormente, mas, neste cenário, os padrões visuais dos gráficos apresentam variações mais notáveis nos tempos de resposta. Observa-se a presença de comportamentos tanto de crescimento quanto de decaimento: alguns gráficos iniciam com tempos baixos que aumentam de forma gradual ou abrupta, enquanto outros começam com tempos elevados e apresentam redução progressiva ou repentina. Esses padrões sugerem variações na latência da rede ou no processamento, especialmente em função do tamanho da string transmitida. Um destaque ocorre quando o tamanho da string é extremamente grande — nesses casos, os tempos de execução tendem a se estabilizar, possivelmente indicando que o limitante para as respostas seja a rede, pois nesses casos é possível observar o crescimento de pacotes TCP trafegando pela rede (Padrão visto com o uso da ferramente *Wireshark*)
+
+$\pagebreak$
 
 ### Desempenho do JSON-RPC para comunicação remota
 
@@ -162,13 +185,13 @@ $\pagebreak$
     * Já no terceiro gráfico, referente à chamada da função `MultLongOP`, é possível identificar um comportamento distinto: o gráfico começa com tempos baixos e aumenta gradualmente, até se estabilizar com tempos altos.
     * Por fim, no gráfico da função `ClassOP`, a tendência é semelhante à observada com gRPC remoto: a execução começa com um tempo baixo, cresce gradualmente até se estabilizar, apresentando eventuais picos sutis ao longo do tempo.
 
+$\pagebreak$
+
 ![Benchmark JSON-RPC remoto 2/2](../assets/remote_jsonrpc_strings_benchmark.png){style="max-width: 50%; height: auto;"}
 
 * Os gráficos a seguir mantêm a mesma proposta de visualização dos tempos estimados para cada chamada de função `StringOP`. As descrições das funções seguem as mesmas apresentadas anteriormente para o gRPC remoto.
 * De forma geral, observa-se que, em quase todos os gráficos, o tempo de execução inicia em níveis mais baixos e cresce gradualmente ao longo das chamadas. Assim como identificado nas execuções com gRPC remoto, é possível perceber padrões de crescimento e decrescimento nos tempos — ora suaves, ora abruptos — dependendo da carga da operação e do tamanho dos dados envolvidos.
 * Um ponto de destaque é o comportamento observado no antepenúltimo gráfico, que se diferencia dos demais: o tempo de execução permanece praticamente constante durante a maior parte das chamadas, sendo subitamente interrompido por um pico inesperado. Esse padrão fora do comum sugere possíveis interferências pontuais na rede ou no processamento da aplicação.
-
-$\pagebreak$
 
 ## Conclusão
 
